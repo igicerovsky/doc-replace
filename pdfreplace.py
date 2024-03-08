@@ -65,16 +65,21 @@ def replace_pdf(in_path: str, replacements: dict) -> None:
         page = pdf.pages[page_number]
         contents = page.get_contents()
 
-        if isinstance(contents, DecodedStreamObject) or isinstance(contents, EncodedStreamObject):
+        if contents and isinstance(contents, DecodedStreamObject) or isinstance(contents, EncodedStreamObject):
             process_data(contents, replacements, stat)
-        elif len(contents) > 0:
+        elif contents and len(contents) > 0:
             for obj in contents:
                 if isinstance(obj, DecodedStreamObject) or isinstance(obj, EncodedStreamObject):
                     streamObj = obj.getObject()
                     process_data(streamObj, replacements, stat)
 
         # Force content replacement
-        page[NameObject("/Contents")] = contents.decoded_self
+        if contents and isinstance(page[NameObject("/Contents")], EncodedStreamObject):
+            page[NameObject("/Contents")] = contents.decoded_self
+        else:
+            print(f'Page {page_number} text is invalid!')
+
+        # page[NameObject("/Contents")] = contents.decoded_self
         writer.add_page(page)
 
     new_path = in_path.replace('.pdf', NEW_DOC_SUFFIX + '.pdf')
