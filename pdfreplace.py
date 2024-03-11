@@ -1,5 +1,7 @@
 import re
 import argparse
+import logging
+
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import DecodedStreamObject, EncodedStreamObject, NameObject
 
@@ -52,7 +54,6 @@ def process_data(object, replacements, stat: dict):
 
 
 def replace_pdf(in_path: str, new_path: str, replacements: dict) -> None:
-    print('\nReplacing text in PDF document {in_path}...')
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--input", required=True,
                     help="path to PDF document")
@@ -79,12 +80,10 @@ def replace_pdf(in_path: str, new_path: str, replacements: dict) -> None:
         else:
             print(f'Page {page_number} text is invalid!')
 
-        # page[NameObject("/Contents")] = contents.decoded_self
         writer.add_page(page)
 
-    # new_path = in_path.replace('.pdf', NEW_DOC_SUFFIX + '.pdf')
     with open(new_path, 'wb') as out_file:
         writer.write(out_file)
-    print(f'New pdf file saved to {new_path}')
+    logging.info(f'New pdf file saved to {new_path}')
 
-    print(f'Replacements:\n  {stat}')
+    logging.info(f'Replacements:\n  {stat}')

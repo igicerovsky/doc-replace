@@ -3,12 +3,14 @@
 from os import getcwd, walk, path
 import argparse
 import pathlib
+import logging
 
 from tkinter import filedialog
 
 from config import replace_data, NEW_DOC_SUFFIX
 from wordreplace import replace_word
 from pdfreplace import replace_pdf
+from pptxreplace import replace_pptx
 
 
 def get_files(directory, exts: tuple) -> list:
@@ -23,8 +25,11 @@ def get_files(directory, exts: tuple) -> list:
 def replace_ext(fn, work_dir, exts: tuple, rdict: dict) -> None:
     """ Replace text in Word documents
     """
+    logging.info(f'Looking for files with extension(s): {exts}...')
     files = get_files(work_dir, exts)
     for file in files:
+        logging.info(f'\nProcessing {file}...',)
+        print(f'\nProcessing {file}...')
         new_file = replace_path(work_dir, file, NEW_DOC_SUFFIX)
         new_dir = pathlib.Path(new_file).parent
         pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
@@ -63,13 +68,17 @@ def main() -> None:
         return
 
     rdict = replace_data()
-    print(work_dir)
+    logging.basicConfig(filename=path.join(work_dir, 'replace.log'),
+                        encoding='utf-8', level=logging.DEBUG)
+
+    logging.info(work_dir)
     try:
         replace_ext(replace_word, work_dir, ('.doc', '.docx'), rdict)
         replace_ext(replace_pdf, work_dir, ('.pdf',), rdict)
+        replace_ext(replace_pptx, work_dir, ('.pptx'), rdict)
     except (KeyError, ValueError, FileNotFoundError, ) as e:
-        print(e)
-        print('Failed!')
+        logging.info(e)
+        logging.info('Failed!')
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 # Description: Replace text in a Word document
+import logging  # noqa: E402
 
 from docx import Document
 
@@ -8,10 +9,6 @@ from config import NEW_DOC_SUFFIX
 def replace_word(doc_path: str, new_path: str, data: dict) -> None:
     """ Replace text in a Word document
     """
-    print(doc_path)
-    print(f'\nProcessing {doc_path}...')
-
-    # Read the document
     doc = Document(doc_path)
 
     replaced = {value: 0 for value in data.keys()}
@@ -36,9 +33,7 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
                             print(
                                 f'{txt_old} -> {paragraph.text}') if verbose else None
 
-    print(f'Replacements:\n  {replaced}')
+    logging.info(f'Replacements:\n  {replaced}')
 
-    # Save the modified document
-    # new_doc_path = doc_path.replace('.docx', NEW_DOC_SUFFIX + '.docx')
     doc.save(new_path)
-    print(f'New docx file saved to {new_path}')
+    logging.info(f'New docx file saved to {new_path}')
