@@ -40,9 +40,9 @@ def main() -> None:
 
     rdict = replace_data()
     try:
-        # word_files = get_files(work_dir, ('.doc', '.docx'))
-        # for file in word_files:
-        #     replace_word(file, rdict)
+        word_files = get_files(work_dir, ('.doc', '.docx'))
+        for file in word_files:
+            replace_word(file, rdict)
 
         pdf_files = get_files(work_dir, ('.pdf'))
         for file in pdf_files:
