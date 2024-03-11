@@ -5,7 +5,7 @@ from docx import Document
 from config import NEW_DOC_SUFFIX
 
 
-def replace_word(doc_path: str, data: dict) -> None:
+def replace_word(doc_path: str, new_path: str, data: dict) -> None:
     """ Replace text in a Word document
     """
     print(doc_path)
@@ -39,6 +39,6 @@ def replace_word(doc_path: str, data: dict) -> None:
     print(f'Replacements:\n  {replaced}')
 
     # Save the modified document
-    new_doc_path = doc_path.replace('.docx', NEW_DOC_SUFFIX + '.docx')
-    doc.save(new_doc_path)
-    print(f'New docx file saved to {new_doc_path}')
+    # new_doc_path = doc_path.replace('.docx', NEW_DOC_SUFFIX + '.docx')
+    doc.save(new_path)
+    print(f'New docx file saved to {new_path}')

@@ -2,6 +2,7 @@
 
 from os import getcwd, walk, path
 import argparse
+import pathlib
 
 from tkinter import filedialog
 
@@ -17,6 +18,29 @@ def get_files(directory, exts: tuple) -> list:
             if file.endswith(exts) and NEW_DOC_SUFFIX not in file:
                 word_files.append(path.join(root, file))
     return word_files
+
+
+def replace_ext(fn, work_dir, exts: tuple, rdict: dict) -> None:
+    """ Replace text in Word documents
+    """
+    files = get_files(work_dir, exts)
+    for file in files:
+        new_file = replace_path(work_dir, file, NEW_DOC_SUFFIX)
+        new_dir = pathlib.Path(new_file).parent
+        pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
+        fn(file, new_file, rdict)
+
+
+def replace_path(work_dir, file, ext: str):
+    wp = pathlib.Path(work_dir)
+    fl = pathlib.Path(file)
+    lst = list(wp.parts)
+    lst[-1] = lst[-1] + ext
+    wp_new = pathlib.Path(*lst)
+    index = fl.parts.index(wp.parts[-1])
+    new_path = pathlib.Path(wp_new).joinpath(*fl.parts[index+1:])
+
+    return new_path
 
 
 def main() -> None:
@@ -39,14 +63,10 @@ def main() -> None:
         return
 
     rdict = replace_data()
+    print(work_dir)
     try:
-        word_files = get_files(work_dir, ('.doc', '.docx'))
-        for file in word_files:
-            replace_word(file, rdict)
-
-        pdf_files = get_files(work_dir, ('.pdf'))
-        for file in pdf_files:
-            replace_pdf(file, rdict)
+        replace_ext(replace_word, work_dir, ('.doc', '.docx'), rdict)
+        replace_ext(replace_pdf, work_dir, ('.pdf',), rdict)
     except (KeyError, ValueError, FileNotFoundError, ) as e:
         print(e)
         print('Failed!')

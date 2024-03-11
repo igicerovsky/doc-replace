@@ -51,7 +51,7 @@ def process_data(object, replacements, stat: dict):
         object.set_data(encoded_data)
 
 
-def replace_pdf(in_path: str, replacements: dict) -> None:
+def replace_pdf(in_path: str, new_path: str, replacements: dict) -> None:
     print('\nReplacing text in PDF document {in_path}...')
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--input", required=True,
@@ -82,7 +82,7 @@ def replace_pdf(in_path: str, replacements: dict) -> None:
         # page[NameObject("/Contents")] = contents.decoded_self
         writer.add_page(page)
 
-    new_path = in_path.replace('.pdf', NEW_DOC_SUFFIX + '.pdf')
+    # new_path = in_path.replace('.pdf', NEW_DOC_SUFFIX + '.pdf')
     with open(new_path, 'wb') as out_file:
         writer.write(out_file)
     print(f'New pdf file saved to {new_path}')
