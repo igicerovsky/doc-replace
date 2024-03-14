@@ -13,7 +13,10 @@
             "justMyCode": true,
             "args": [
                 "--dir",
-                "c:/work/doc-replace/data"
+                "c:/work/doc-replace/data",
+                "--pdf",
+                "--doc",
+                "--ppt",
             ]
         }
     ]

@@ -1,12 +1,36 @@
 """Powerpoint file replace text module"""
+import sys  # noqa: E402
 import logging  # noqa: E402
 
 from pptx import Presentation
 
 from pptx import Presentation
 
+from TextReplacer import TextReplacer
+
 
 def replace_pptx(file_path: str, new_path: str, data: dict) -> None:
+    try:
+        replacer = TextReplacer(file_path,
+                                tables=True,
+                                charts=True,
+                                textframes=True,
+                                slides='',
+                                verbose=False,
+                                quiet=False)
+        replacements = []
+        for key, value in data.items():
+            replacements.append((key, value))
+
+        replacer.replace_text(replacements, use_regex=False, verbose=False)
+        replacer.write_presentation_to_file(new_path)
+
+    except ValueError as err:
+        print(str(err.args[0]), file=sys.stderr)
+        logging.error(str(err.args[0]))
+
+
+def replace_pptx_old(file_path: str, new_path: str, data: dict) -> None:
     prs = Presentation(file_path)
 
     # text_runs will be populated with a list of strings,

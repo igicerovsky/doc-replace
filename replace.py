@@ -54,6 +54,12 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--dir", help="processing directory", default=None)
+    parser.add_argument(
+        "--doc", help="Process MS Word (*.doc, *.docx)", action='store_true')
+    parser.add_argument(
+        "--pdf", help="Process PDF files (*.pdf)", action='store_true')
+    parser.add_argument(
+        "--ppt", help="Process Power Point files (*.pptx)", action='store_true')
 
     args = parser.parse_args()
     work_dir = args.dir
@@ -68,14 +74,18 @@ def main() -> None:
         return
 
     rdict = replace_data()
-    logging.basicConfig(filename=path.join(work_dir, 'replace.log'),
+    log_path = path.join(getcwd(), 'replace.log')
+    logging.basicConfig(filename=log_path,
                         encoding='utf-8', level=logging.DEBUG)
-
+    print(f'Logging to: {log_path}\n')
     logging.info(work_dir)
     try:
-        replace_ext(replace_word, work_dir, ('.doc', '.docx'), rdict)
-        replace_ext(replace_pdf, work_dir, ('.pdf',), rdict)
-        replace_ext(replace_pptx, work_dir, ('.pptx'), rdict)
+        if args.doc:
+            replace_ext(replace_word, work_dir, ('.doc', '.docx'), rdict)
+        if args.pdf:
+            replace_ext(replace_pdf, work_dir, ('.pdf',), rdict)
+        if args.ppt:
+            replace_ext(replace_pptx, work_dir, ('.pptx'), rdict)
     except (KeyError, ValueError, FileNotFoundError, ) as e:
         logging.info(e)
         logging.info('Failed!')

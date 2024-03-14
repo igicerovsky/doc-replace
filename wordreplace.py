@@ -37,3 +37,4 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
 
     doc.save(new_path)
     logging.info(f'New docx file saved to {new_path}')
+    print(f'New docx file saved to {new_path}')
