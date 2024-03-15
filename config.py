@@ -2,6 +2,10 @@
 
 # The data dictionary contains the key-value pairs for the replacement.
 # Could be copied here from excel or other source.
+
+import re
+
+
 text = '''
 BAX335, AAV8-B.00
 PP335, AAV8-B.00
@@ -101,6 +105,8 @@ AAV9-SJ074, AAV9-R2.03
 PHU02, AAV9-R2.03
 AAV9-SJ072, AAV9-R2.04
 PHU01, AAV9-R2.04
+confidential, rm-0001
+for internal use only, rm-0002
 '''
 
 
@@ -116,3 +122,8 @@ def replace_data() -> dict:
         key, value = line.split(',')
         data[key.strip()] = value.strip()
     return data
+
+
+def replace_substring(txt, repl, subs):
+    # Replacing all occurrences of substring s1 with s2
+    return re.sub(r'(?i)'+subs, repl, txt)

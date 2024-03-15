@@ -203,7 +203,7 @@ class TextReplacer:
                              for run in par.runs) for par in text_frame.paragraphs)
             if self._use_regex:
                 matches = list(m for m in re.finditer(
-                    srch, text, flags=re.MULTILINE))
+                    srch, text, flags=re.MULTILINE | re.IGNORECASE))
                 if len(matches) > 0:
                     matcher = matches.pop()
                     pos_in_text_frame = matcher.start(0)

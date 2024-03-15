@@ -1,14 +1,24 @@
 # Description: Replace text in a Word document
+import os
 import logging  # noqa: E402
 
 from docx import Document
+from doc2docx import convert
 
-from config import NEW_DOC_SUFFIX
+from config import replace_substring
 
 
 def replace_word(doc_path: str, new_path: str, data: dict) -> None:
     """ Replace text in a Word document
     """
+
+    if doc_path.endswith('doc'):
+        docx_path = os.path.splitext(doc_path)[0] + '.docx'
+        print(f'Converting {doc_path} to {docx_path}')
+        convert(doc_path, docx_path)
+        logging.info(f'Converting {doc_path} to {docx_path}')
+        doc_path = docx_path
+
     doc = Document(doc_path)
 
     replaced = {value: 0 for value in data.keys()}
@@ -17,7 +27,9 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
         for key, value in data.items():
             if key in paragraph.text:
                 txt_old = paragraph.text
-                paragraph.text = paragraph.text.replace(key, value)
+                # paragraph.text = paragraph.text.replace(key, value)
+                paragraph.text = replace_substring(
+                    paragraph.text, key, value)
                 replaced[key] += 1
                 print(f'{txt_old} -> {paragraph.text}') if verbose else None
 
@@ -28,7 +40,9 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
                     for key, value in data.items():
                         if key in paragraph.text:
                             txt_old = paragraph.text
-                            paragraph.text = paragraph.text.replace(key, value)
+                            # paragraph.text = paragraph.text.replace(key, value)
+                            paragraph.text = replace_substring(
+                                paragraph.text, key, value)
                             replaced[key] += 1
                             print(
                                 f'{txt_old} -> {paragraph.text}') if verbose else None

@@ -5,7 +5,7 @@ import logging
 from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import DecodedStreamObject, EncodedStreamObject, NameObject
 
-from config import NEW_DOC_SUFFIX
+from config import replace_substring
 
 
 def replace_text(content, replacements: dict, stat: dict) -> str:
@@ -29,7 +29,8 @@ def replace_text(content, replacements: dict, stat: dict) -> str:
                     if k in replaced_line:
                         res = len(re.findall(f'(?=({k}))', replaced_line))
                         stat[k] += res
-                    replaced_line = replaced_line.replace(k, v)
+                    # replaced_line = replaced_line.replace(k, v)
+                    replaced_line = replace_substring(replaced_line, k, v)
                 result += replaced_line + "\n"
             else:
                 result += line + "\n"
