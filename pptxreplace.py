@@ -1,5 +1,4 @@
 """Powerpoint file replace text module"""
-import sys  # noqa: E402
 import logging  # noqa: E402
 
 
@@ -7,30 +6,7 @@ from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 from pptx.enum.shapes import PP_PLACEHOLDER
 
-from TextReplacer import TextReplacer
 from config import replace_substring
-
-
-def replace_pptx(file_path: str, new_path: str, data: dict) -> None:
-    try:
-        replacer = TextReplacer(file_path,
-                                tables=True,
-                                charts=True,
-                                textframes=True,
-                                slides='',
-                                verbose=False,
-                                quiet=False)
-        replacements = []
-        for key, value in data.items():
-            replacements.append((key, value))
-
-        # use_regex=True is important for CASEINSENSITIVE matching
-        replacer.replace_text(replacements, use_regex=True, verbose=False)
-        replacer.write_presentation_to_file(new_path)
-
-    except ValueError as err:
-        print(str(err.args[0]), file=sys.stderr)
-        logging.error(str(err.args[0]))
 
 
 # def remove_metadata_from_app_xml(prs):
@@ -102,13 +78,13 @@ def process_shape(shape_parent, data, replaced, verbose=False):
         if shape.is_placeholder:
             ph = shape.placeholder_format
             if ph.type == PP_PLACEHOLDER.FOOTER or ph.type == PP_PLACEHOLDER.HEADER:
-                print('%d, %s' % (ph.idx, ph.type))
+                # print('%d, %s' % (ph.idx, ph.type))
                 tidx = shape_parent.shapes[ph.idx]
                 sp = tidx.element
                 sp.getparent().remove(shape.element)
 
 
-def replace_pptx_old(file_path: str, new_path: str, data: dict) -> None:
+def replace_pptx(file_path: str, new_path: str, data: dict) -> None:
     prs = Presentation(file_path)
 
     # remove_metadata_from_app_xml(prs)

@@ -9,36 +9,45 @@ from config import replace_substring
 
 
 def replace_text(content, replacements: dict, stat: dict) -> str:
-    lines = content.splitlines()
 
-    result = ""
-    in_text = False
+    for k, v in replacements.items():
+        if k in content:
+            content, n = replace_substring(
+                content, k, v)
+            stat[k] += n
 
-    for line in lines:
-        if line == "BT":
-            in_text = True
+    return content
 
-        elif line == "ET":
-            in_text = False
+# def replace_text(content, replacements: dict, stat: dict) -> str:
+#     lines = content.splitlines()
 
-        elif in_text:
-            cmd = line[-2:]
-            if cmd.lower() == 'tj':
-                replaced_line = line
-                for k, v in replacements.items():
-                    if k in replaced_line:
-                        res = len(re.findall(f'(?=({k}))', replaced_line))
-                        stat[k] += res
-                    # replaced_line = replaced_line.replace(k, v)
-                    replaced_line = replace_substring(replaced_line, k, v)
-                result += replaced_line + "\n"
-            else:
-                result += line + "\n"
-            continue
+#     result = ""
+#     in_text = False
 
-        result += line + "\n"
+#     for line in lines:
+#         if line == "BT":
+#             in_text = True
 
-    return result
+#         elif line == "ET":
+#             in_text = False
+
+#         elif in_text:
+#             cmd = line[-2:]
+#             if cmd.lower() == 'tj':
+#                 replaced_line = line
+#                 for k, v in replacements.items():
+#                     if k in replaced_line:
+#                         replaced_line, n =  replace_substring(
+#                             line, k, v)
+#                         stat[k] += n
+#                 result += replaced_line + "\n"
+#             else:
+#                 result += line + "\n"
+#             continue
+
+#         result += line + "\n"
+
+#     return result
 
 
 def process_data(object, replacements, stat: dict):
@@ -64,6 +73,8 @@ def replace_pdf(in_path: str, new_path: str, replacements: dict) -> None:
 
     stat = {value: 0 for value in replacements.keys()}
     empty = True
+    replaced = {value: 0 for value in replacements.keys()}
+
     for page_number in range(0, len(pdf.pages)):
         page = pdf.pages[page_number]
         contents = page.get_contents()

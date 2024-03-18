@@ -15,11 +15,11 @@
 - PDF with metradata
 - MS Power Point
 - command line orgs for file types
+- case sensitive
+- save only sucessfully processed files
+- convert doc to docx
 
 ## TODO
 
-- save only sucessfully processed files
 - add PPTX replacements to log
-- convert doc to docx
-- case sensitive?
-  
+- convert doc to docx testing
