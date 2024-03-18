@@ -10,7 +10,7 @@ from tkinter import filedialog
 from config import replace_data, NEW_DOC_SUFFIX
 from wordreplace import replace_word
 from pdfreplace import replace_pdf
-from pptxreplace import replace_pptx
+from pptxreplace import replace_pptx, replace_pptx_old
 
 
 def get_files(directory, exts: tuple) -> list:
@@ -36,8 +36,8 @@ def replace_ext(fn, work_dir, exts: tuple, rdict: dict) -> None:
             pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
             fn(file, new_file, rdict)
         except Exception as e:
-            logging.info(e)
-            logging.info(f'Failed! {file}...')
+            logging.error(f'{e} in {file}')
+            print(f'{e} in {file}')
 
 
 def replace_path(work_dir, file, ext: str):
@@ -89,7 +89,7 @@ def main() -> None:
         if args.pdf:
             replace_ext(replace_pdf, work_dir, ('.pdf',), rdict)
         if args.ppt:
-            replace_ext(replace_pptx, work_dir, ('.pptx'), rdict)
+            replace_ext(replace_pptx_old, work_dir, ('.pptx'), rdict)
     except (KeyError, ValueError, FileNotFoundError, ) as e:
         logging.info(e)
         logging.info('Failed!')
