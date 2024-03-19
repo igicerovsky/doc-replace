@@ -9,14 +9,18 @@ from config import replace_substring
 
 
 def replace_text(content, replacements: dict, stat: dict) -> str:
-
+    """ Replace text in a PDF document
+        Replacements are case insensitive
+        Replacements MUST NOT contain 'BT' or 'ET' or 'TJ' keys
+        Returns the modified content
+    """
     for k, v in replacements.items():
-        if k in content:
-            content, n = replace_substring(
-                content, k, v)
-            stat[k] += n
+        content, n = replace_substring(
+            content, k, v)
+        stat[k] += n
 
     return content
+
 
 # def replace_text(content, replacements: dict, stat: dict) -> str:
 #     lines = content.splitlines()
@@ -36,10 +40,9 @@ def replace_text(content, replacements: dict, stat: dict) -> str:
 #             if cmd.lower() == 'tj':
 #                 replaced_line = line
 #                 for k, v in replacements.items():
-#                     if k in replaced_line:
-#                         replaced_line, n =  replace_substring(
-#                             line, k, v)
-#                         stat[k] += n
+#                     replaced_line, n = replace_substring(
+#                         line, k, v)
+#                     stat[k] += n
 #                 result += replaced_line + "\n"
 #             else:
 #                 result += line + "\n"
@@ -52,7 +55,7 @@ def replace_text(content, replacements: dict, stat: dict) -> str:
 
 def process_data(object, replacements, stat: dict):
     data = object.get_data()
-    decoded_data = data.decode('utf-8')
+    decoded_data = data.decode('utf-8', errors='ignore')
 
     replaced_data = replace_text(decoded_data, replacements, stat)
 
@@ -73,13 +76,12 @@ def replace_pdf(in_path: str, new_path: str, replacements: dict) -> None:
 
     stat = {value: 0 for value in replacements.keys()}
     empty = True
-    replaced = {value: 0 for value in replacements.keys()}
 
     for page_number in range(0, len(pdf.pages)):
         page = pdf.pages[page_number]
         contents = page.get_contents()
 
-        if contents and isinstance(contents, DecodedStreamObject) or isinstance(contents, EncodedStreamObject):
+        if contents and (isinstance(contents, DecodedStreamObject) or isinstance(contents, EncodedStreamObject)):
             process_data(contents, replacements, stat)
         elif contents and len(contents) > 0:
             for obj in contents:
