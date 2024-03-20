@@ -28,7 +28,7 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
             txt_old = paragraph.text
             paragraph.text, n = replace_substring(
                 paragraph.text, key, value)
-            replaced[key] += n
+            replaced[value] += n
             print(f'{txt_old} -> {paragraph.text}') if verbose else None
 
     for table in doc.tables:
@@ -39,7 +39,7 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
                         txt_old = paragraph.text
                         paragraph.text, n = replace_substring(
                             paragraph.text, key, value)
-                        replaced[key] += n
+                        replaced[value] += n
                         print(
                             f'{txt_old} -> {paragraph.text}') if verbose else None
 

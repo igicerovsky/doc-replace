@@ -34,7 +34,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                         txt_old = run.text
                         run.text, n = replace_substring(
                             run.text, key, value)
-                        replaced[key] += n
+                        replaced[value] += n
                         print(
                             f'{txt_old} -> {run.text}') if verbose else None
 
@@ -48,7 +48,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                     txt_old = cell.text
                     cell.text, n = replace_substring(
                         cell.text, key, value)
-                    replaced[key] += n
+                    replaced[value] += n
                     print(
                         f'{txt_old} -> {cell.text}') if verbose else None
 
@@ -59,7 +59,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                     txt_old = series.name
                     txt_new, n = replace_substring(
                         txt_old, key, value)
-                    replaced[key] += n
+                    replaced[value] += n
                     series.name.replace(txt_old, txt_new)
                     print(
                         f'{txt_old} -> {txt_new}') if verbose else None
@@ -68,7 +68,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                     txt_old = categ
                     categ, n = replace_substring(
                         txt_old, key, value)
-                    replaced[key] += n
+                    replaced[value] += n
                     print(
                         f'{txt_old} -> {categ}') if verbose else None
 
@@ -91,7 +91,7 @@ def replace_pptx(file_path: str, new_path: str, data: dict) -> None:
 
     # text_runs will be populated with a list of strings,
     # one for each text run in presentation
-    replaced = {value: 0 for value in data.vakues()}
+    replaced = {value: 0 for value in data.values()}
     verbose = False
     for slide in prs.slides:
         if slide.has_notes_slide:
@@ -100,7 +100,7 @@ def replace_pptx(file_path: str, new_path: str, data: dict) -> None:
                 txt_old = notes_slide.notes_text_frame.text
                 notes_slide.notes_text_frame.text, n = replace_substring(
                     notes_slide.notes_text_frame.text, key, value)
-                replaced[key] += n
+                replaced[value] += n
                 print(
                     f'{txt_old} -> {notes_slide.notes_text_frame.text}') if verbose else None
 

@@ -28,23 +28,23 @@ def replace_ext(fn, work_dir, exts: tuple, rdict: dict) -> None:
     logging.info(f'Looking for files with extension(s): {exts}...')
     files = get_files(work_dir, exts)
     for file in files:
-        try:
-            logging.info(f'\nProcessing {file}...',)
-            print(f'\nProcessing {file}...')
-            new_file = replace_path(work_dir, file, NEW_DOC_SUFFIX)
-            new_dir = pathlib.Path(new_file).parent
-            pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
-            fn(file, new_file, rdict)
-        except Exception as e:
-            logging.error(f'{e} in {file}')
-            print(f'{e} in {file}')
+        # try:
+        #     logging.info(f'\nProcessing {file}...',)
+        #     print(f'\nProcessing {file}...')
+        #     new_file = replace_path(work_dir, file, NEW_DOC_SUFFIX)
+        #     new_dir = pathlib.Path(new_file).parent
+        #     pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
+        #     fn(file, new_file, rdict)
+        # except Exception as e:
+        #     logging.error(f'{e} in {file}')
+        #     print(f'{e} in {file}')
 
-        # logging.info(f'\nProcessing {file}...',)
-        # print(f'\nProcessing {file}...')
-        # new_file = replace_path(work_dir, file, NEW_DOC_SUFFIX)
-        # new_dir = pathlib.Path(new_file).parent
-        # pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
-        # fn(file, new_file, rdict)
+        logging.info(f'\nProcessing {file}...',)
+        print(f'\nProcessing {file}...')
+        new_file = replace_path(work_dir, file, NEW_DOC_SUFFIX)
+        new_dir = pathlib.Path(new_file).parent
+        pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
+        fn(file, new_file, rdict)
 
 
 def replace_path(work_dir, file, ext: str):

@@ -17,40 +17,9 @@ def replace_text(content, replacements: dict, stat: dict) -> str:
     for k, v in replacements.items():
         content, n = replace_substring(
             content, k, v)
-        stat[k] += n
+        stat[v] += n
 
     return content
-
-
-# def replace_text(content, replacements: dict, stat: dict) -> str:
-#     lines = content.splitlines()
-
-#     result = ""
-#     in_text = False
-
-#     for line in lines:
-#         if line == "BT":
-#             in_text = True
-
-#         elif line == "ET":
-#             in_text = False
-
-#         elif in_text:
-#             cmd = line[-2:]
-#             if cmd.lower() == 'tj':
-#                 replaced_line = line
-#                 for k, v in replacements.items():
-#                     replaced_line, n = replace_substring(
-#                         line, k, v)
-#                     stat[k] += n
-#                 result += replaced_line + "\n"
-#             else:
-#                 result += line + "\n"
-#             continue
-
-#         result += line + "\n"
-
-#     return result
 
 
 def process_data(object, replacements, stat: dict):
