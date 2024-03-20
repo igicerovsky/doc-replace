@@ -21,7 +21,7 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
 
     doc = Document(doc_path)
 
-    replaced = {value: 0 for value in data.keys()}
+    replaced = {value: 0 for value in data.values()}
     verbose = False
     for paragraph in doc.paragraphs:
         for key, value in data.items():

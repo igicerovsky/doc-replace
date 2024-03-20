@@ -91,7 +91,7 @@ def replace_pptx(file_path: str, new_path: str, data: dict) -> None:
 
     # text_runs will be populated with a list of strings,
     # one for each text run in presentation
-    replaced = {value: 0 for value in data.keys()}
+    replaced = {value: 0 for value in data.vakues()}
     verbose = False
     for slide in prs.slides:
         if slide.has_notes_slide:
