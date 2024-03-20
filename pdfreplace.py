@@ -74,7 +74,7 @@ def replace_pdf(in_path: str, new_path: str, replacements: dict) -> None:
     pdf = PdfReader(in_path)
     writer = PdfWriter()
 
-    stat = {value: 0 for value in replacements.valuess()}
+    stat = {value: 0 for value in replacements.values()}
     empty = True
 
     for page_number in range(0, len(pdf.pages)):
