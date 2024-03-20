@@ -25,25 +25,23 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
     verbose = False
     for paragraph in doc.paragraphs:
         for key, value in data.items():
-            if key in paragraph.text:
-                txt_old = paragraph.text
-                paragraph.text, n = replace_substring(
-                    paragraph.text, key, value)
-                replaced[key] += n
-                print(f'{txt_old} -> {paragraph.text}') if verbose else None
+            txt_old = paragraph.text
+            paragraph.text, n = replace_substring(
+                paragraph.text, key, value)
+            replaced[key] += n
+            print(f'{txt_old} -> {paragraph.text}') if verbose else None
 
     for table in doc.tables:
         for row in table.rows:
             for cell in row.cells:
                 for paragraph in cell.paragraphs:
                     for key, value in data.items():
-                        if key in paragraph.text:
-                            txt_old = paragraph.text
-                            paragraph.text, n = replace_substring(
-                                paragraph.text, key, value)
-                            replaced[key] += n
-                            print(
-                                f'{txt_old} -> {paragraph.text}') if verbose else None
+                        txt_old = paragraph.text
+                        paragraph.text, n = replace_substring(
+                            paragraph.text, key, value)
+                        replaced[key] += n
+                        print(
+                            f'{txt_old} -> {paragraph.text}') if verbose else None
 
     logging.info(f'Replacements:\n  {replaced}')
 

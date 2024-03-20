@@ -33,7 +33,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                     for key, value in data.items():
                         txt_old = run.text
                         run.text, n = replace_substring(
-                            run.text, value, key)
+                            run.text, key, value)
                         replaced[key] += n
                         print(
                             f'{txt_old} -> {run.text}') if verbose else None
@@ -47,7 +47,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                 for key, value in data.items():
                     txt_old = cell.text
                     cell.text, n = replace_substring(
-                        cell.text, value, key)
+                        cell.text, key, value)
                     replaced[key] += n
                     print(
                         f'{txt_old} -> {cell.text}') if verbose else None
@@ -58,7 +58,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                 for key, value in data.items():
                     txt_old = series.name
                     txt_new, n = replace_substring(
-                        txt_old, value, key)
+                        txt_old, key, value)
                     replaced[key] += n
                     series.name.replace(txt_old, txt_new)
                     print(
@@ -67,7 +67,7 @@ def process_shape(shape_parent, data, replaced, verbose=False):
                 for key, value in data.items():
                     txt_old = categ
                     categ, n = replace_substring(
-                        txt_old, value, key)
+                        txt_old, key, value)
                     replaced[key] += n
                     print(
                         f'{txt_old} -> {categ}') if verbose else None
@@ -99,7 +99,7 @@ def replace_pptx(file_path: str, new_path: str, data: dict) -> None:
             for key, value in data.items():
                 txt_old = notes_slide.notes_text_frame.text
                 notes_slide.notes_text_frame.text, n = replace_substring(
-                    notes_slide.notes_text_frame.text, value, key)
+                    notes_slide.notes_text_frame.text, key, value)
                 replaced[key] += n
                 print(
                     f'{txt_old} -> {notes_slide.notes_text_frame.text}') if verbose else None

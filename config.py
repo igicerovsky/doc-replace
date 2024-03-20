@@ -162,6 +162,9 @@ def replace_data() -> dict:
     return data
 
 
-def replace_substring(txt, repl, subs):
-    # Replacing all occurrences of substring s1 with s2
-    return re.subn(r'(?i)'+subs, repl, txt, flags=re.MULTILINE | re.IGNORECASE)
+def replace_substring(txt, k, v, flags=re.MULTILINE | re.IGNORECASE):
+    """ Replace substring in a text
+        k: substring to be replaced
+        v: new substring
+    """
+    return re.subn(r'(?i)'+k, v, txt, flags=flags)
