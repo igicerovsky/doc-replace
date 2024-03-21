@@ -1,4 +1,10 @@
-import re
+""" Replace text in a PDF document
+    Replacements are case insensitive
+    Replacements MUST NOT contain 'BT' or 'ET' or 'TJ' keys
+    Returns the modified content
+    NOTE: PDF are complex and this implementation doesn't cover all cases
+"""
+
 import argparse
 import logging
 

@@ -1,4 +1,5 @@
-# Description: Replace text in a Word document
+""" Replace text in a Word document
+"""
 import os
 import logging  # noqa: E402
 
@@ -42,6 +43,22 @@ def replace_word(doc_path: str, new_path: str, data: dict) -> None:
                         replaced[value] += n
                         print(
                             f'{txt_old} -> {paragraph.text}') if verbose else None
+
+    for section in doc.sections:
+        for paragraph in section.footer.paragraphs:
+            for key, value in data.items():
+                txt_old = paragraph.text
+                paragraph.text, n = replace_substring(
+                    paragraph.text, key, value)
+                replaced[value] += n
+                print(f'{txt_old} -> {paragraph.text}') if verbose else None
+        for paragraph in section.header.paragraphs:
+            for key, value in data.items():
+                txt_old = paragraph.text
+                paragraph.text, n = replace_substring(
+                    paragraph.text, key, value)
+                replaced[value] += n
+                print(f'{txt_old} -> {paragraph.text}') if verbose else None
 
     logging.info(f'Replacements:\n  {replaced}')
 
