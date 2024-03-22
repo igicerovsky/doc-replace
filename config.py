@@ -225,6 +225,8 @@ dc_replacements = {"private": " ",
                    "FXN": "AAV9.C5-X.P12",
                    "C5/P12": "AAV9.C5-X.P12",
                    "Friedreich's Ataxia": "AAV9.C5-X.P12",
+                   "Friedreich Ataxia": "AAV9.C5-X.P12",
+                   "Friedreich": "AAV9.C5-X.P12",
                    "Frataxin": "AAV9.C5-X.P13",
                    "PFX01": "AAV9.C5-X.P12",
                    "PPFXN": "AAV9.C5-X.P12",
@@ -291,7 +293,7 @@ dc_replacements = {"private": " ",
                    "AAV9-SJ072": "AAV9-R2.04",
                    "PHU01": "AAV9-R2.04",
                    "SOP": "Document",
-                   "DP0073": "AAVX-YY.ZZ"}
+                   "DP0073": "AAV8-R.00"}
 
 
 NEW_DOC_SUFFIX = '_N-e-W_'
