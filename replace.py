@@ -52,24 +52,24 @@ def replace_ext(fn, work_dir, exts: tuple, rdict: dict) -> None:
         # fn(file, new_file, rdict)
 
 
-def replace_path(work_dir, file, ext: str):
-    wp = pathlib.Path(work_dir)
-    fl = pathlib.Path(file)
-    lst = list(wp.parts)
-    lst[-1] = lst[-1] + ext
-    wp_new = pathlib.Path(*lst)
-    index = fl.parts.index(wp.parts[-1])
-    new_path = pathlib.Path(wp_new).joinpath(*fl.parts[index+1:])
-
-    return new_path
-
-
 def new_path(work_dir, ext: str):
     wp = pathlib.Path(work_dir)
     lst = list(wp.parts)
     lst[-1] = lst[-1] + ext
     wp_new = pathlib.Path(*lst)
     return wp_new
+
+
+def replace_path(work_dir, file, ext: str):
+    wp = pathlib.Path(work_dir)
+    lst = list(wp.parts)
+    lst[-1] = lst[-1] + ext
+    wp_new = pathlib.Path(*lst)
+    fl = pathlib.Path(file)
+    index = fl.parts.index(wp.parts[-1])
+    new_path = pathlib.Path(wp_new).joinpath(*fl.parts[index+1:])
+
+    return new_path
 
 
 def main() -> None:
