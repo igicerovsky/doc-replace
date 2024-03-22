@@ -33,8 +33,9 @@ def replace_ext(fn, work_dir, exts: tuple, rdict: dict) -> None:
     for n, file in enumerate(files):
         try:
             logging.info(f'\nProcessing {file}...',)
+            progress = 100*(n+1)/nfiles
             print(
-                f'\nProcessing {(n+1)} of {nfiles} ({100*(n+1)/nfiles}%) {file}...')
+                f'\nProcessing {(n+1)} of {nfiles} ({progress:.2f}%) {file}...')
             new_file = replace_path(work_dir, file, NEW_DOC_SUFFIX)
             new_dir = pathlib.Path(new_file).parent
             pathlib.Path(new_dir).mkdir(parents=True, exist_ok=True)
